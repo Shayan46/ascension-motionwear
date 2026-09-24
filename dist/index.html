@@ -122,8 +122,8 @@
     </section>
 
     <section class="shop" id="shop">
-      <div class="shop-top reveal"><div><div class="section-id">Drop 001 / Available states</div><h2>Objects for becoming.</h2></div><p class="shop-note">Three modular forms. Small-batch production. Each piece is numbered and cut only after it is claimed.</p></div>
-      <div class="shop-controls reveal"><div class="edit-tabs" role="tablist" aria-label="Shop by edit"><button class="edit-tab active" data-edit="men" role="tab" aria-selected="true">Men’s edit</button><button class="edit-tab" data-edit="women" role="tab" aria-selected="false">Women’s edit</button></div><div class="filter-chips" aria-label="Product categories"><button class="filter-chip active">All</button><button class="filter-chip">Outerwear</button><button class="filter-chip">Tops</button><button class="filter-chip">Bottoms</button><button class="filter-chip">Accessories</button></div></div>
+      <div class="shop-top reveal"><div><div class="section-id">Drop 001 / Available states</div><h2>Objects for becoming.</h2></div><p class="shop-note">Distinct Men’s and Women’s edits shaped around refined utility, fluid layering and collectible hardware. Every piece is cut only after it is claimed.</p></div>
+      <div class="shop-controls reveal"><div class="edit-tabs" role="tablist" aria-label="Shop by edit"><button class="edit-tab active" data-edit="men" role="tab" aria-selected="true">Men’s edit</button><button class="edit-tab" data-edit="women" role="tab" aria-selected="false">Women’s edit</button></div><div class="filter-chips" id="filterChips" aria-label="Product categories"></div></div>
       <div class="product-grid reveal" id="productGrid" aria-live="polite"></div>
       <div class="shop-footer"><a class="text-link" href="#drop">See how State 01 transforms</a></div>
     </section>
@@ -172,23 +172,31 @@
       men:[
         {name:'Transit Shell / M01',cat:'Outerwear',price:'₹12,800',state:'State 01 · 3 forms',tag:'42 of 100 left',img:'assets/state-shell-v2.png'},
         {name:'Axis Trouser / M02',cat:'Bottoms',price:'₹9,600',state:'State 02 · Zip transform',tag:'First edition',img:'assets/axis-trouser-v2.png'},
-        {name:'Fold Wrap / M03',cat:'Tops',price:'₹7,400',state:'State 03 · 2 forms',tag:'Online exclusive',img:'assets/fold-wrap-v2.png'}
+        {name:'Relay Zip / M03',cat:'Tops',price:'₹6,800',state:'State 03 · Performance layer',tag:'Gen Z edit',img:'assets/relay-zip-v3.png'},
+        {name:'Fold Wrap / M04',cat:'Tops',price:'₹7,400',state:'State 04 · 2 forms',tag:'Online exclusive',img:'assets/fold-wrap-v2.png'},
+        {name:'Node Sling / M05',cat:'Accessories',price:'₹5,900',state:'State 05 · 2 carries',tag:'Only 60 made',img:'assets/node-sling-v3.png'}
       ],
       women:[
         {name:'Frame Shell / W01',cat:'Outerwear',price:'₹12,800',state:'State 01 · 3 forms',tag:'42 of 100 left',img:'assets/state-shell-v2.png'},
-        {name:'Arc Cargo / W02',cat:'Bottoms',price:'₹9,600',state:'State 02 · Zip transform',tag:'First edition',img:'assets/axis-trouser-v2.png'},
-        {name:'Drape Wrap / W03',cat:'Layering',price:'₹7,400',state:'State 03 · 2 forms',tag:'Online exclusive',img:'assets/fold-wrap-v2.png'}
+        {name:'Veil Layer / W02',cat:'Layering',price:'₹6,200',state:'State 02 · Sheer double layer',tag:'New state',img:'assets/veil-layer-v3.png'},
+        {name:'Shift Skirt / W03',cat:'Bottoms',price:'₹8,900',state:'State 03 · 2 silhouettes',tag:'First edition',img:'assets/shift-skirt-v3.png'},
+        {name:'Drape Wrap / W04',cat:'Tops',price:'₹7,400',state:'State 04 · 2 forms',tag:'Online exclusive',img:'assets/fold-wrap-v2.png'},
+        {name:'Arc Cargo / W05',cat:'Bottoms',price:'₹9,600',state:'State 05 · Zip transform',tag:'Restock / 30',img:'assets/axis-trouser-v2.png'},
+        {name:'Orbit Sling / W06',cat:'Accessories',price:'₹5,900',state:'State 06 · 2 carries',tag:'Only 60 made',img:'assets/node-sling-v3.png'}
       ]
     };
-    let currentEdit='men',bag=0;
+    const categories={men:['All','Outerwear','Tops','Bottoms','Accessories'],women:['All','Outerwear','Tops','Bottoms','Layering','Accessories']};
+    let currentEdit='men',currentFilter='All',bag=0;
     const grid=document.getElementById('productGrid');
-    function renderProducts(edit){currentEdit=edit;grid.innerHTML=products[edit].map((p,i)=>`<article class="shop-card"><div class="shop-image"><span class="scarcity">${p.tag}</span><button class="wish" aria-label="Save ${p.name}">♡</button><img src="${p.img}" alt="${p.name}, ${p.cat}"><button class="quick-add" data-product="${p.name}">Add to bag +</button></div><div class="shop-meta"><h3>${p.name}</h3><span class="shop-price">${p.price}</span><span class="shop-cat">${p.cat}</span><span class="shop-state">${p.state}</span></div></article>`).join('');}
-    function setEdit(edit){document.querySelectorAll('.edit-tab').forEach(b=>{const on=b.dataset.edit===edit;b.classList.toggle('active',on);b.setAttribute('aria-selected',on)});renderProducts(edit)}
+    const filterChips=document.getElementById('filterChips');
+    function renderFilters(){filterChips.innerHTML=categories[currentEdit].map(c=>`<button class="filter-chip${c===currentFilter?' active':''}" data-filter="${c}">${c}</button>`).join('')}
+    function renderProducts(){const visible=currentFilter==='All'?products[currentEdit]:products[currentEdit].filter(p=>p.cat===currentFilter);grid.innerHTML=visible.map(p=>`<article class="shop-card"><div class="shop-image"><span class="scarcity">${p.tag}</span><button class="wish" aria-label="Save ${p.name}">♡</button><img src="${p.img}" alt="${p.name}, ${p.cat}" loading="lazy"><button class="quick-add" data-product="${p.name}">Add to bag +</button></div><div class="shop-meta"><h3>${p.name}</h3><span class="shop-price">${p.price}</span><span class="shop-cat">${p.cat}</span><span class="shop-state">${p.state}</span></div></article>`).join('');}
+    function setEdit(edit){currentEdit=edit;currentFilter='All';document.querySelectorAll('.edit-tab').forEach(b=>{const on=b.dataset.edit===edit;b.classList.toggle('active',on);b.setAttribute('aria-selected',on)});renderFilters();renderProducts()}
     document.querySelectorAll('.edit-tab').forEach(b=>b.addEventListener('click',()=>setEdit(b.dataset.edit)));
     document.querySelectorAll('[data-open-edit]').forEach(a=>a.addEventListener('click',()=>setEdit(a.dataset.openEdit)));
-    document.querySelectorAll('.filter-chip').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');showToast(b.textContent+' selected','More pieces arrive as Drop 001 unfolds.')}));
+    filterChips.addEventListener('click',e=>{const chip=e.target.closest('.filter-chip');if(!chip)return;currentFilter=chip.dataset.filter;renderFilters();renderProducts()});
     grid.addEventListener('click',e=>{const add=e.target.closest('.quick-add');if(add){bag++;document.getElementById('bagCount').textContent=bag;showToast('Added to your state',add.dataset.product+' is now in your bag.')}});
-    renderProducts('men');
+    renderFilters();renderProducts();
     const end=Date.now()+48*60*60*1000;setInterval(()=>{const d=Math.max(0,end-Date.now()),h=String(Math.floor(d/3600000)).padStart(2,'0'),m=String(Math.floor(d%3600000/60000)).padStart(2,'0'),s=String(Math.floor(d%60000/1000)).padStart(2,'0');document.getElementById('countdown').textContent=`${h}:${m}:${s}`},1000);
     document.querySelectorAll('.size').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.size').forEach(x=>x.setAttribute('aria-pressed','false'));btn.setAttribute('aria-pressed','true')}));
     document.getElementById('reserve').addEventListener('click',()=>{const s=document.querySelector('.size[aria-pressed="true"]').textContent;showToast('State 01 · size '+s,'Reservation flow ready for checkout integration.')});
