@@ -1,0 +1,116 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "affdf1c7-30cb-4c95-a91f-942d23aca2e0",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "orders": {
+      "name": "orders",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order_number": {
+          "name": "order_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'confirmed'"
+        },
+        "total_cents": {
+          "name": "total_cents",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'INR'"
+        },
+        "items_json": {
+          "name": "items_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tracking_code": {
+          "name": "tracking_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "cancelled_at": {
+          "name": "cancelled_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "orders_order_number_unique": {
+          "name": "orders_order_number_unique",
+          "columns": [
+            "order_number"
+          ],
+          "isUnique": true
+        },
+        "idx_orders_user_created": {
+          "name": "idx_orders_user_created",
+          "columns": [
+            "user_id",
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
