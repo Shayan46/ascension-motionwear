@@ -5,10 +5,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getDb } from "@/db";
 import { orders } from "@/db/schema";
-import { requireChatGPTUser } from "@/app/chatgpt-auth";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function requestCancellation(formData: FormData) {
-  const user = await requireChatGPTUser("/account");
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/account");
   const orderId = String(formData.get("orderId") ?? "");
   if (!orderId) redirect("/account?notice=missing-order");
 
@@ -18,7 +20,7 @@ export async function requestCancellation(formData: FormData) {
     .where(
       and(
         eq(orders.id, orderId),
-        eq(orders.userId, user.userId),
+        eq(orders.userId, user.id),
         inArray(orders.status, ["confirmed", "processing"]),
       ),
     );
