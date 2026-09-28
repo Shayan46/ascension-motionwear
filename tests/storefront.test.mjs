@@ -20,15 +20,9 @@ test("both edits expose their intended categories", () => {
   assert.match(html, /women:\['All','Outerwear','Tops','Bottoms','Gym Wear','Layering','Accessories'\]/);
 });
 
-test("every rendered product receives the shared 360 trigger", () => {
-  assert.match(html, /data-view360="\$\{p\.id\}"/);
-  assert.match(html, /productsById\.get\(view\.dataset\.view360\)/);
-  assert.match(html, /id="spinDialog"/);
-  assert.match(html, /Interactive 360° preview/);
-  assert.match(html, /is-multiview/);
-  assert.match(html, /id="spinCanvas"/);
-  assert.match(html, /createGarmentViewer/);
-  assert.match(html, /startSpinInertia/);
+test("product cards expose a single full-width add-to-bag action", () => {
+  assert.match(html, /class="card-actions"><button type="button" class="quick-add"/);
+  assert.doesNotMatch(html, /view-360|data-view360|spinDialog|spinCanvas|createGarmentViewer/);
 });
 
 test("every catalog image exists in the public directory", async () => {
@@ -38,10 +32,6 @@ test("every catalog image exists in the public directory", async () => {
   await Promise.all(paths.map((asset) => access(join(root, "public", "assets", asset))));
 });
 
-test("studio-view products have four optimized viewpoints", async () => {
-  const root = dirname(fileURLToPath(new URL("../storefront.html", import.meta.url)));
-  const spinPaths = [...html.matchAll(/spin:\[([^\]]+)\]/g)]
-    .flatMap((match) => [...match[1].matchAll(/'assets\/([^']+)'/g)].map((asset) => asset[1]));
-  assert.equal(spinPaths.length, 16);
-  await Promise.all(spinPaths.map((asset) => access(join(root, "public", "assets", asset))));
+test("catalog contains no 360-view product metadata", () => {
+  assert.doesNotMatch(html, /spin:\[/);
 });
