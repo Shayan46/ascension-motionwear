@@ -1,4 +1,5 @@
 import { desc, eq } from "drizzle-orm";
+import Link from "next/link";
 import { getDb } from "@/db";
 import { orders } from "@/db/schema";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -39,8 +40,8 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
     return (
       <main className="min-h-screen bg-[#0a0a0a] text-[#f4f1ea]">
         <nav className="flex h-20 items-center justify-between border-b border-white/15 px-5 md:px-12">
-          <a href="/" className="text-sm font-semibold tracking-[0.22em]">ASCENSION</a>
-          <a href="/" className="text-xs uppercase tracking-[0.16em] text-white/65 hover:text-white">Back to shop</a>
+          <Link href="/" className="text-sm font-semibold tracking-[0.22em]">ASCENSION</Link>
+          <Link href="/" className="text-xs uppercase tracking-[0.16em] text-white/65 hover:text-white">Back to shop</Link>
         </nav>
         <section className="grid min-h-[calc(100vh-5rem)] lg:grid-cols-[1.15fr_.85fr]">
           <div className="flex flex-col justify-between border-b border-white/15 p-6 md:p-12 lg:border-b-0 lg:border-r">
@@ -69,7 +70,7 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
               </div>
               <button type="button" disabled className="mt-3 min-h-12 w-full border border-white/15 text-xs uppercase tracking-[.15em] text-white/30 disabled:cursor-not-allowed">Send verification code</button>
               <p id="phone-note" className="mt-3 text-xs leading-5 text-white/35">Mobile OTP access is designed and will activate when the SMS service is connected.</p>
-              <p className="mt-7 text-xs leading-5 text-white/35">By continuing, you agree to the <a href="/terms" className="text-white/65 underline underline-offset-4 hover:text-white">Terms</a> and acknowledge the <a href="/privacy" className="text-white/65 underline underline-offset-4 hover:text-white">Privacy Policy</a>.</p>
+              <p className="mt-7 text-xs leading-5 text-white/35">By continuing, you agree to the <Link href="/terms" className="text-white/65 underline underline-offset-4 hover:text-white">Terms</Link> and acknowledge the <Link href="/privacy" className="text-white/65 underline underline-offset-4 hover:text-white">Privacy Policy</Link>.</p>
             </div>
           </div>
         </section>
@@ -84,8 +85,8 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
   return (
     <main className="min-h-screen bg-[#f2f0ea] text-[#0a0a0a]">
       <nav className="flex min-h-20 items-center justify-between border-b border-black/15 px-5 py-4 md:px-12">
-        <a href="/" className="text-sm font-semibold tracking-[0.22em]">ASCENSION</a>
-        <div className="flex items-center gap-4 md:gap-8"><a href="/#shop" className="text-xs uppercase tracking-[0.14em] text-black/60 hover:text-black">Shop</a><form action="/auth/signout" method="post"><button type="submit" className="text-xs uppercase tracking-[0.14em] text-black/60 hover:text-black">Sign out</button></form></div>
+        <Link href="/" className="text-sm font-semibold tracking-[0.22em]">ASCENSION</Link>
+        <div className="flex items-center gap-4 md:gap-8"><Link href="/#shop" className="text-xs uppercase tracking-[0.14em] text-black/60 hover:text-black">Shop</Link><form action="/auth/signout" method="post"><button type="submit" className="text-xs uppercase tracking-[0.14em] text-black/60 hover:text-black">Sign out</button></form></div>
       </nav>
       <section className="px-5 py-10 md:px-12 md:py-16">
         {notice === "cancellation-requested" && <p role="status" className="mb-8 border border-black bg-black px-4 py-3 text-sm text-white">Cancellation requested. We’ll confirm it by email.</p>}
@@ -101,7 +102,7 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
         <section className="py-12 md:py-16">
           <div className="mb-8"><p className="text-xs uppercase tracking-[0.18em] text-black/45">Order archive</p><h2 className="mt-2 text-3xl font-medium tracking-[-.04em] md:text-5xl">Your pieces in motion.</h2></div>
           {orderRows.length === 0 ? (
-            <div className="grid min-h-80 place-items-center border border-black/20 bg-[#e8e5de] p-8 text-center"><div className="max-w-md"><p className="text-6xl font-light text-black/25">00</p><h3 className="mt-5 text-2xl font-medium tracking-[-.03em]">Your archive is clear.</h3><p className="mt-3 leading-7 text-black/55">Orders placed with this account will appear here with live status, tracking and available management options.</p><a href="/#shop" className="mt-8 inline-flex min-h-12 items-center border border-black bg-black px-6 text-xs font-semibold uppercase tracking-[0.15em] text-white hover:bg-transparent hover:text-black">Explore State 01</a></div></div>
+            <div className="grid min-h-80 place-items-center border border-black/20 bg-[#e8e5de] p-8 text-center"><div className="max-w-md"><p className="text-6xl font-light text-black/25">00</p><h3 className="mt-5 text-2xl font-medium tracking-[-.03em]">Your archive is clear.</h3><p className="mt-3 leading-7 text-black/55">Orders placed with this account will appear here with live status, tracking and available management options.</p><Link href="/#shop" className="mt-8 inline-flex min-h-12 items-center border border-black bg-black px-6 text-xs font-semibold uppercase tracking-[0.15em] text-white hover:bg-transparent hover:text-black">Explore State 01</Link></div></div>
           ) : (
             <div className="space-y-4">{orderRows.map((order) => {
               const items = JSON.parse(order.itemsJson) as OrderItem[];
