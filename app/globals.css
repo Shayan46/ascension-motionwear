@@ -135,3 +135,37 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.legal-copy {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgb(255 255 255 / 0.62);
+}
+
+.legal-copy > p:first-child {
+  max-width: 48rem;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+  color: rgb(255 255 255 / 0.88);
+}
+
+.legal-copy h2 {
+  margin-top: 3rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.9);
+}
+
+.legal-copy p {
+  max-width: 46rem;
+}
+
+.legal-copy a {
+  color: rgb(255 255 255 / 0.9);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}

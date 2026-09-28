@@ -69,6 +69,7 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
               </div>
               <button type="button" disabled className="mt-3 min-h-12 w-full border border-white/15 text-xs uppercase tracking-[.15em] text-white/30 disabled:cursor-not-allowed">Send verification code</button>
               <p id="phone-note" className="mt-3 text-xs leading-5 text-white/35">Mobile OTP access is designed and will activate when the SMS service is connected.</p>
+              <p className="mt-7 text-xs leading-5 text-white/35">By continuing, you agree to the <a href="/terms" className="text-white/65 underline underline-offset-4 hover:text-white">Terms</a> and acknowledge the <a href="/privacy" className="text-white/65 underline underline-offset-4 hover:text-white">Privacy Policy</a>.</p>
             </div>
           </div>
         </section>
