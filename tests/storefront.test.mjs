@@ -26,6 +26,9 @@ test("every rendered product receives the shared 360 trigger", () => {
   assert.match(html, /id="spinDialog"/);
   assert.match(html, /Interactive 360° preview/);
   assert.match(html, /is-multiview/);
+  assert.match(html, /id="spinCanvas"/);
+  assert.match(html, /createGarmentViewer/);
+  assert.match(html, /startSpinInertia/);
 });
 
 test("every catalog image exists in the public directory", async () => {
